@@ -1,0 +1,58 @@
+parameters:
+- name: image
+  displayName: 'Pool image'
+  default: ubuntu-latest
+  values:
+  - windows-latest
+  - windows-latest
+  - ubuntu-latest
+  - ubuntu-latest
+  - macOS-latest
+  - macOS-latest
+- name: test
+  displayName: Run Tests?
+  type: boolean
+  default: false
+
+variables:
+- group: $(myvargroup)
+- name: va
+  value: $[myvargroup.a]
+- name: vb
+  value: $[myvargroup.b]
+
+
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: |
+    echo "Hello, world!"
+    echo "Pool image: ${{ parameters.image }}"
+    echo "Run tests? ${{ parameters.test }}"
+  displayName: 'Show runtime parameter values'
+
+- script: |
+
+    echo "va=$(va)"
+    echo "vb=$(vb)"
+ #   echo "contososecret=$(vcontososecret)"
+# echo
+# echo "Count up to the value of the variable group's nonsecret variable *a*:"
+# for number in {1..$(va)}
+# do
+#     echo "$number"
+# done
+# echo "Count up to the value of the variable group's nonsecret variable *b*:"
+# for number in {1..$(vb)}
+# do
+#     echo "$number"
+# done
+
+  displayName: 'Test variable group variables (secret and nonsecret)'
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
