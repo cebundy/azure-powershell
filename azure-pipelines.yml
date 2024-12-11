@@ -14,12 +14,13 @@ parameters:
   type: boolean
   default: false
 
-variables:
-- group: $(myvargroup)
-- name: va
-  value: $[myvargroup.a]
-- name: vb
-  value: $[myvargroup.b]
+#variables:
+  
+# - group: $(myvargroup)
+# - name: va
+#   value: $[myvargroup.a]
+# - name: vb
+#   value: $[myvargroup.b]
 
 
 
@@ -35,9 +36,10 @@ steps:
     echo "Pool image: ${{ parameters.image }}"
     echo "Run tests? ${{ parameters.test }}"
   displayName: 'Show runtime parameter values'
-
 - script: |
-
+    echo "The variable is: $(myVariable)"
+    displayName: 'Print the variable'
+- script: |
     echo "va=$(va)"
     echo "vb=$(vb)"
  #   echo "contososecret=$(vcontososecret)"
